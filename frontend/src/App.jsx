@@ -1,7 +1,8 @@
 import "./App.css";
+import MainRoute from "./components/features/MainRoute/MainRoute";
 
 function App() {
-  return <div className="text-3xl text-yellow-500">Netflix</div>;
+  return <MainRoute />;
 }
 
 export default App;
