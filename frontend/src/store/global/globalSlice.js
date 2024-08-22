@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {
-  formData: [],
+const initialState = {
+  formData: {},
 };
 
-export const globalSlice = createSlice({
+const globalSlice = createSlice({
   name: "global",
-  initialState: INITIAL_STATE,
+  initialState,
   reducers: {
     setFormData: (state, { payload }) => {
       state.formData = payload;
