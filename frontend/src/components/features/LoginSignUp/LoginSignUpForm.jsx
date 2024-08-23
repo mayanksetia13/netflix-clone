@@ -1,10 +1,16 @@
 import Button from "../../common/Button/Button";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setFormData } from "../../../store/global/globalSlice";
+import { getToggleAuthForm } from "../../../store/global/globalSelectors";
+import useAuth from "./hooks/useAuth";
 
-function LoginForm() {
+function LoginSignUpForm() {
+  const { handleUserRegistration, handleUserLogin } = useAuth();
+
   const dispatch = useDispatch();
+  const isUserSignedUp = useSelector(getToggleAuthForm);
+
   const {
     register,
     handleSubmit,
@@ -12,18 +18,47 @@ function LoginForm() {
     reset,
   } = useForm();
 
+  const isSignUpDataValid = !errors.name && !errors.email && !errors.password;
+
+  const isLoginDataValid = !errors.email && !errors.password;
+
   const onSubmitSignInForm = (data) => {
     console.log(data);
     dispatch(setFormData(data));
+
+    if (isUserSignedUp && isSignUpDataValid) {
+      console.log("CHECK 1");
+      handleUserRegistration(data.email, data.password);
+    } else if (!isUserSignedUp && isLoginDataValid) {
+      console.log("CHECK 2");
+      handleUserLogin(data.email, data.password);
+    }
     reset();
   };
 
   return (
     <div className="flex justify-center items-center flex-col gap-4">
       <h3 className="text-white font-bold text-3xl w-11/12 px-2 mt-12">
-        Sign In
+        {isUserSignedUp ? "Sign Up" : "Sign In"}
       </h3>
       <form onSubmit={handleSubmit(onSubmitSignInForm)} className="w-11/12">
+        {isUserSignedUp && (
+          <div className="py-4 px-2 ">
+            <input
+              className="py-2 rounded w-full bg-gray-600/70 px-2 text-white placeholder-white placeholder:ml-2 focus:outline-red-600 focus:border-red-600"
+              type="text"
+              {...register("name", {
+                required: "Name is required",
+              })}
+              placeholder="Name"
+            />
+            {errors.name && (
+              <p className="text-primary font-medium mt-2">
+                {errors.name.message}
+              </p>
+            )}
+          </div>
+        )}
         <div className="py-4 px-2 ">
           <input
             className="py-2 rounded w-full bg-gray-600/70 px-2 text-white placeholder-white placeholder:ml-2 focus:outline-red-600 focus:border-red-600"
@@ -64,7 +99,7 @@ function LoginForm() {
         </div>
         <div className="mt-3 px-2">
           <Button
-            text="Sign in"
+            text={isUserSignedUp ? "Sign Up" : "Sign In"}
             bgColor={"#db0000"}
             color={"white"}
             className={"bg-red-700 text-lg font-medium w-full"}
@@ -75,4 +110,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default LoginSignUpForm;
