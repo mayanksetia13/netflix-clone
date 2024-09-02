@@ -1,6 +1,7 @@
 import netflixLogo from "../../../assets/images/netflix-logo.png";
 import userLogo from "../../../assets/images/user-logo.png";
-import dropDownIcon from "../../../assets/images/drop-down-arrow.png";
+
+import DropdownMenu from "../Dropdown/Dropdown";
 function Header() {
   return (
     <header className="bg-gradient-to-b from-black">
@@ -9,12 +10,10 @@ function Header() {
           <img className="w-44" src={netflixLogo} alt="netflix-logo" />
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center w-12 h-12">
+          <div className="flex items-center w-10 h-10">
             <img src={userLogo} alt="user-logo" />
           </div>
-          <div className="flex items-center cursor-pointer">
-            <img src={dropDownIcon} alt="dropdown-arrow" />
-          </div>
+          <DropdownMenu />
         </div>
       </div>
     </header>

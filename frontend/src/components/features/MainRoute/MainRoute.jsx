@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../utils/config/firebaseConfig";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/global/globalSlice";
+import Account from "../Account/Account";
 
 function MainRoute() {
   const dispatch = useDispatch();
@@ -18,6 +19,10 @@ function MainRoute() {
     {
       path: "/browse",
       element: <Browse />,
+    },
+    {
+      path: "/account",
+      element: <Account />,
     },
   ]);
 
